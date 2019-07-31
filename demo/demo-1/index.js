@@ -6,8 +6,9 @@ var program = gl.createProgram();
 
 var VSHADER_SOURCE = `
   attribute vec4 a_Position;
+  uniform mat4 u_ModelMatrix;
   void main(){
-    gl_Position = a_Position;
+    gl_Position = u_ModelMatrix * a_Position;
   }
 `;
 var FSHADER_SOURCE = `
@@ -30,9 +31,11 @@ function createShader(gl, sourceCode, type) {
 }
 
 // define vertex shader
+// 顶点着色器
 vertexShader = createShader(gl, VSHADER_SOURCE, gl.VERTEX_SHADER);
 
 // define fragmeng shader
+// 片元着色器
 fragmentShader = createShader(gl, FSHADER_SOURCE, gl.FRAGMENT_SHADER);
 
 // attach program to shader
@@ -47,8 +50,10 @@ gl.linkProgram(program);
 gl.useProgram(program);
 gl.program = program;
 
+// 将顶点位置信息灌入顶点着色器
 function initVertexBuffers(gl) {
   var vertices = new Float32Array([0, 0.5, -0.5, -0.5, 0.5, -0.5]);
+  // var vertices = new Float32Array([-1, 1, -1, -1, 1, -1]);
   // 创建 WebGLBuffer 对象
   var buffer = gl.createBuffer();
   var n = 3;
@@ -65,11 +70,43 @@ function initVertexBuffers(gl) {
 }
 
 var n = initVertexBuffers(gl);
+var currentAngle = 0;
+var g_last = Date.now();
+
+function tick() {
+  animate();
+  draw();
+  // 告诉浏览器——你希望执行一个动画，并且要求浏览器在下次重绘之前调用指定的回调函数更新动画。该方法需要传入一个回调函数作为参数，该回调函数会在浏览器下一次重绘之前执行
+  requestAnimationFrame(tick);
+}
+
+// 更新旋转的角度
+function animate() {
+  var now = Date.now();
+  var duration = now - g_last;
+  g_last = now;
+  // 1s旋转180度
+  currentAngle = currentAngle + (duration / 1000) * 180;
+}
+
+// 设置用于清空用的颜色
+gl.clearColor(0, 0, 0, 1);
+
+// 矩阵库
+var modelMatrix = new Matrix4();
+
+// 返回uniform 变量的指针位置
+var u_ModelMatrix = gl.getUniformLocation(gl.program, 'u_ModelMatrix');
 
 function draw() {
-  // 设置用于清空用的颜色
-  gl.clearColor(0, 0, 0, 1);
+  // 根据坐标轴设置旋转角度
+  modelMatrix.setRotate(currentAngle, 0, 1, 0);
+  // 指定一个uniform矩阵变量
+  gl.uniformMatrix4fv(u_ModelMatrix, false, modelMatrix.elements);
+  // 把指定的缓冲区清空为预设的值。
+  gl.clear(gl.COLOR_BUFFER_BIT);
   // 渲染数组中的原始数据
   gl.drawArrays(gl.TRIANGLES, 0, n);
 }
-draw();
+
+tick();
