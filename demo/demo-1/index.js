@@ -2,7 +2,6 @@
   原生webgl绘制一个旋转的三角形
 */
 
-
 var canvas = document.getElementById('myCanvas');
 var gl = canvas.getContext('webgl');
 console.log('gl===', gl);
@@ -12,8 +11,9 @@ var program = gl.createProgram();
 var VSHADER_SOURCE = `
   attribute vec4 a_Position;
   uniform mat4 u_ModelMatrix;
+  uniform mat4 u_ViewMatrix;
   void main(){
-    gl_Position = u_ModelMatrix * a_Position;
+    gl_Position = u_ViewMatrix * u_ModelMatrix * a_Position;
   }
 `;
 var FSHADER_SOURCE = `
@@ -79,11 +79,16 @@ var n = initVertexBuffers(gl);
 var currentAngle = 0;
 var g_last = Date.now();
 
+// 返回uniform 变量的指针位置
+var u_ModelMatrix = gl.getUniformLocation(gl.program, 'u_ModelMatrix');
 // 矩阵库
 var modelMatrix = new Matrix4();
 
 // 返回uniform 变量的指针位置
-var u_ModelMatrix = gl.getUniformLocation(gl.program, 'u_ModelMatrix');
+var u_ViewMatrix = gl.getUniformLocation(gl.program, 'u_ViewMatrix');
+var viewMatrix = new Matrix4();
+// viewMatrix.lookAt(100, 100, 100, 0, 0, 0, 0, 1, 0);
+viewMatrix.lookAt(0, 0, 0, 0, 0, -1, 0, 1, 0);
 
 // 设置用于清空用的颜色
 gl.clearColor(0, 0, 0, 1);
@@ -100,8 +105,10 @@ function animate() {
 function draw() {
   // 根据坐标轴设置旋转角度
   modelMatrix.setRotate(currentAngle, 0, 1, 0);
-  // 指定一个uniform矩阵变量
+  // 指定一个uniform矩阵变量()
   gl.uniformMatrix4fv(u_ModelMatrix, false, modelMatrix.elements);
+  // 指定一个uniform矩阵变量(视图矩阵)
+  gl.uniformMatrix4fv(u_ViewMatrix, false, viewMatrix.elements);
   // 把指定的缓冲区清空为预设的值。
   gl.clear(gl.COLOR_BUFFER_BIT);
   // 渲染数组中的原始数据
