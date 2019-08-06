@@ -2,12 +2,16 @@
  *
  */
 
-import GameController from './controller';
+import gameController from './controller';
 
 class Game {
-  constructor() {}
+  constructor() {
+    this.gameController = gameController
+  }
 
-  init() {}
+  init() {
+    this.gameController.initPages()
+  }
 }
 
 export default new Game();

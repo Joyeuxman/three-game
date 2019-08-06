@@ -6,31 +6,31 @@ import gameView from './view';
 import gameModel from './model';
 
 class GameController {
-  constructor(){
-    this.gameview = gameView
-    this.gameModel = gameModel
+  constructor() {
+    this.gameView = gameView;
+    this.gameModel = gameModel;
   }
 
   // 将该函数中的this固定在GameController(通过箭头函数)
-  showGameOverPage = () =>{
-    this.gameView.showGameOverPage()
-  }
+  showGameOverPage = () => {
+    this.gameView.showGameOverPage();
+  };
 
   restartGame = () => {
-    this.gameview.restartGame()
-  }
+    this.gameView.restartGame();
+  };
 
-  initPages(){
+  initPages() {
     const gamePageCallbacks = {
-      showGameOverPage = this.showGameOverPage
-    }
+      showGameOverPage: this.showGameOverPage
+    };
     const gameOverPageCallbacks = {
-      gameRestart = this.restartGame
-    }
-
-    this.gameview.initGameOverPage(gameOverPageCallbacks)
-    this.gameview.initGamePage(gamePageCallbacks)
+      gameRestart: this.restartGame
+    };
+    
+    this.gameView.initGamePage(gamePageCallbacks);
+    this.gameView.initGameOverPage(gameOverPageCallbacks);
   }
 }
 
-export default new GameController()
+export default new GameController();

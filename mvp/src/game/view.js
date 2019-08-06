@@ -19,7 +19,9 @@ class GameView {
 
   initGameOverPage(callbacks) {
     this.gameOverPage = new GameOverPage(callbacks);
-    this.gameOverPage.init();
+    this.gameOverPage.init({
+      sence: this.gamePage.sence
+    });
   }
 
   showGameOverPage (){
