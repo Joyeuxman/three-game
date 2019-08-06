@@ -14,7 +14,7 @@
 
     notify(args){
       for(let i = 0;i<this._listener.length;i++){
-        this._listener[i](sender.args)
+        this._listener[i](this._sender,args)
       }
     }
  }

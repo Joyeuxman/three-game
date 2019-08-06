@@ -9,25 +9,32 @@ class GameController {
   constructor() {
     this.gameView = gameView;
     this.gameModel = gameModel;
+    this.gameModel.stageChanged.attach((sender, args) => {
+      console.log('sender===', sender);
+      console.log('args===', args);
+      const stageName = args.stage;
+      switch (stageName) {
+        case 'game-over':
+          this.gameView.showGameOverPage();
+          break;
+        case 'game':
+          this.gameView.showGameOverPage();
+          break;
+        default:
+      }
+    });
   }
-
-  // 将该函数中的this固定在GameController(通过箭头函数)
-  showGameOverPage = () => {
-    this.gameView.showGameOverPage();
-  };
-
-  restartGame = () => {
-    this.gameView.restartGame();
-  };
 
   initPages() {
     const gamePageCallbacks = {
-      showGameOverPage: this.showGameOverPage
+      showGameOverPage: () => {
+        this.gameModel.setStage('game-over');
+      }
     };
-    const gameOverPageCallbacks = {
-      gameRestart: this.restartGame
+    const gameOverPageCallbacks = () => {
+      this.gameModel.setStage('game');
     };
-    
+
     this.gameView.initGamePage(gamePageCallbacks);
     this.gameView.initGameOverPage(gameOverPageCallbacks);
   }

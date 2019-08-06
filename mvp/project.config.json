@@ -5,10 +5,20 @@
 		"es6": true,
 		"postcss": true,
 		"minified": true,
-		"newFeature": true
+		"newFeature": true,
+		"coverView": true,
+		"autoAudits": false,
+		"checkInvalidKey": true,
+		"checkSiteMap": true,
+		"uploadWithSourceMap": true,
+		"babelSetting": {
+			"ignore": [],
+			"disablePlugins": [],
+			"outputPath": ""
+		}
 	},
 	"compileType": "game",
-	"libVersion": "1.9.94",
+	"libVersion": "2.7.7",
 	"appid": "wx5aa9e6cd3799e916",
 	"projectname": "mvp",
 	"simulatorType": "wechat",

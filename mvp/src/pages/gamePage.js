@@ -63,17 +63,18 @@ export default class GamePage {
     // 模型
     // 表示基于以三角形为polygon mesh（多边形网格）的物体的类
     var mesh = new THREE.Mesh(geometry, material);
+    this.mesh = mesh;
     mesh.position.x = 0;
     mesh.position.y = 0;
     mesh.position.z = 1;
-    // sence.add(mesh);
+    sence.add(mesh);
 
     // 添加坐标轴辅助工具
     // x --> red
     // y --> green
     // z --> blue
-    const axesHelper = new THREE.AxesHelper(100)
-    sence.add(axesHelper)
+    const axesHelper = new THREE.AxesHelper(100);
+    sence.add(axesHelper);
 
     camera.position.x = 0;
     camera.position.y = 0;
@@ -99,6 +100,22 @@ export default class GamePage {
     }
 
     render();
+
+    // 2s之后显示游戏结束画面
+    setTimeout(() => {
+      console.log('callbacks===', this.callbacks);
+      this.callbacks.showGameOverPage();
+    }, 2000);
+  }
+
+  show() {
+    console.log('GamePage show');
+    this.mesh.visible = true;
+  }
+
+  hide() {
+    console.log('GamePage hide');
+    this.mesh.visible = false;
   }
 
   restart() {

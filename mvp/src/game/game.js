@@ -10,6 +10,7 @@ class Game {
   }
 
   init() {
+    // debugger;
     this.gameController.initPages()
   }
 }
