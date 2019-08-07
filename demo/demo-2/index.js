@@ -14,7 +14,7 @@ var renderer = new THREE.WebGLRenderer({
 
 // 场景
 // 场景是所有物体的容器，如果要显示一个苹果，就需要将苹果对象加入场景中
-var sence = new THREE.Scene();
+var scene = new THREE.Scene();
 
 // 正交相机
 // 相机决定了场景中那个角度的景色会显示出来。相机就像人的眼睛一样，人站在不同位置，抬头或者低头都能够看到不同的景色
@@ -32,7 +32,7 @@ renderer.setClearColor(new THREE.Color(0x000000, 1));
 // 将输出canvas的大小调整为(width, height)
 renderer.setSize(400, 400);
 // 用相机(camera)渲染一个场景(scene)
-renderer.render(sence, camera);
+renderer.render(scene, camera);
 
 // 从点来创建一个Shape  一个Vector2数组
 var triAngleShape = new THREE.Shape();
@@ -58,7 +58,7 @@ var mesh = new THREE.Mesh(geometry, material);
 mesh.position.x = 0;
 mesh.position.y = 0;
 mesh.position.z = 1;
-sence.add(mesh);
+scene.add(mesh);
 
 camera.position.x = 0;
 camera.position.y = 0;
@@ -79,7 +79,7 @@ function render() {
   animate();
   // 物体的局部旋转，以弧度来表示
   mesh.rotation.set(0, 0, currentAngle);
-  renderer.render(sence, camera);
+  renderer.render(scene, camera);
   requestAnimationFrame(render);
 }
 
