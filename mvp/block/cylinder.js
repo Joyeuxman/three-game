@@ -18,10 +18,12 @@ class Cylinder extends BaseBlock {
       this.height,
       120
     );
-    const material = new THREE.MeshBasicMaterial({
+    const material = new THREE.MeshPhongMaterial({
       color: 0xffffff
     });
     this.instance = new THREE.Mesh(geometry, material);
+    this.instance.receiveShadow = true;
+    this.instance.castShadow = true;
     this.instance.name = 'block';
     this.x = x;
     this.y = y;

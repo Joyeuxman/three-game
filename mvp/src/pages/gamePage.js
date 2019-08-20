@@ -4,6 +4,7 @@
 import { scene } from '../scene/index';
 import Cuboid from '../../block/cuboid';
 import Cylinder from '../../block/cylinder';
+import ground from '../objects/ground'
 
 export default class GamePage {
   constructor(callbacks) {
@@ -13,8 +14,11 @@ export default class GamePage {
   init() {
     console.log('GamePage init');
     this.scene = scene;
+    this.ground = ground;
     this.scene.init();
+    this.ground.init();
     this.addInitBlock();
+    this.addGround();
     this.render();
   }
 
@@ -30,6 +34,10 @@ export default class GamePage {
 
     this.scene.instance.add(cuboidBlock.instance)
     this.scene.instance.add(cylinderBlock.instance)
+  }
+
+  addGround(){
+    this.scene.instance.add(this.ground.instance)
   }
 
   show() {
