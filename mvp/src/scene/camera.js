@@ -20,6 +20,7 @@ class Camera {
     );
     // 相机位置
     this.instance.position.set(-10, 10, 10);
+    // this.instance.position.set(0, 0, 10);
     // 相机看向的位置
     this.target = new THREE.Vector3(0, 0, 0);
     this.instance.lookAt(this.target);
